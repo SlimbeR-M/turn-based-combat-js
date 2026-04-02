@@ -72,6 +72,18 @@ let modulo = (()=>{
         turnoJugador = false;
     }
 
+    const bloquearBotones = () => {
+        btnAtacar.disabled = true;
+        btnCurarse.disabled = true;
+        btnDefender.disabled = true;
+    }
+
+    const desbloquearBotones = () => {
+        btnAtacar.disabled = false;
+        btnCurarse.disabled = false;
+        btnDefender.disabled = false;
+    }
+
     const evaluar = ()=> {
         if(jugadorHP > 100) jugadorHP = 100;
         if(jugadorHP < 0) jugadorHP = 0;
@@ -82,15 +94,11 @@ let modulo = (()=>{
     const ganador = ()=> {
         if(jugadorHP === 0) {
             alert("Perdiste");
-            btnAtacar.disabled = true;
-            btnCurarse.disabled = true;
-            btnDefender.disabled = true;
+            bloquearBotones();
             btnReiniciar.style.display = "inline-block";
         } else if(computadoraHP === 0) {
             alert("Ganaste")
-            btnAtacar.disabled = true;
-            btnCurarse.disabled = true;
-            btnDefender.disabled = true;
+            bloquearBotones();
             btnReiniciar.style.display = "inline-block";
         }
     }
@@ -115,20 +123,8 @@ let modulo = (()=>{
         }
     }
 
-    const bloquearBotones = () => {
-        btnAtacar.disabled = true;
-        btnCurarse.disabled = true;
-        btnDefender.disabled = true;
-    }
-
-    const desbloquearBotones = () => {
-        btnAtacar.disabled = false;
-        btnCurarse.disabled = false;
-        btnDefender.disabled = false;
-    }
-
     const turnoDeJugador = (accion)=>{
-        bloquearBotones();
+        
         accion();
         evaluar();
         renderizar();
@@ -136,7 +132,7 @@ let modulo = (()=>{
             turnoEnemigo();
             evaluar();
             renderizar();
-            desbloquearBotones();
+            
         },1000);
     }
 
