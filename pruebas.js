@@ -2,6 +2,7 @@ let modulo = (()=>{
     const btnAtacar = document.querySelector("#atacar"),
         btnDefender = document.querySelector("#defender"),
         btnCurarse = document.querySelector("#curarse"),
+        btnReiniciar = document.querySelector("#reiniciar"),
         VidaJugador = document.querySelector("#jugador"),
         vidaComputadora = document.querySelector("#computadora"),
         suceso = document.querySelector("#movimiento");
@@ -10,6 +11,17 @@ let modulo = (()=>{
     let computadoraHP = 100;
     let turnoJugador = true;
     let defendiendo = false;
+    btnReiniciar.style.display = "none";
+
+    const Reiniciar = ()=> {
+        jugadorHP = 100;
+        computadoraHP = 100;
+        turnoJugador = true;
+        defendiendo = false;
+        btnReiniciar.style.display = "none";
+        suceso.innerHTML = "";
+        renderizar();
+    }
 
     const mensajes = (texto)=> {
         const li = document.createElement("li");
@@ -73,11 +85,13 @@ let modulo = (()=>{
             btnAtacar.disabled = true;
             btnCurarse.disabled = true;
             btnDefender.disabled = true;
+            btnReiniciar.style.display = "inline-block";
         } else if(computadoraHP === 0) {
             alert("Ganaste")
             btnAtacar.disabled = true;
             btnCurarse.disabled = true;
             btnDefender.disabled = true;
+            btnReiniciar.style.display = "inline-block";
         }
     }
 
@@ -131,4 +145,6 @@ let modulo = (()=>{
     btnCurarse.addEventListener("click", ()=> turnoDeJugador(curarse));
 
     btnDefender.addEventListener("click", ()=> turnoDeJugador(defender));
+
+    btnReiniciar.addEventListener("click", ()=> Reiniciar());
 })();
