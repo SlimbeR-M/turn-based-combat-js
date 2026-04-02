@@ -11,21 +11,26 @@ let modulo = (()=>{
     let turnoJugador = true;
     let defendiendo = false;
 
+    const mensajes = (texto)=> {
+        const li = document.createElement("li");
+        li.textContent = texto;
+        suceso.prepend(li);
+    }
+
     const atacar = ()=> {
-        computadoraHP -= Math.floor(Math.random() * (20 - 5 + 1)) + 5;
-        suceso.innerText = `El jugador realizo un ataque`;
+        let dañoJugador = Math.floor(Math.random() * (20 - 5 + 1)) + 5;
+        computadoraHP -= dañoJugador;
+        mensajes(`El jugador realizo un ataque de ${dañoJugador}`);
         turnoJugador = false;
     }
 
     const evaluarDaño = (daño)=> {
         if(defendiendo){
             daño = Math.floor(daño/2);
-            suceso.innerText = `La computadora realizo un ataque de ${daño}`
             defendiendo = false;
         }
         jugadorHP -= daño;
-        suceso.innerText = `La computadora realizo un ataque de ${daño}`
-        turnoJugador = true;
+        mensajes(`La computadora realizo un ataque de ${daño}`);
     }
 
 
@@ -45,13 +50,13 @@ let modulo = (()=>{
 
     const defender = ()=> {
         defendiendo = true;
-        suceso.innerText = `El jugador esta defendiendo`;
+        mensajes(`El jugador esta defendiendo`);
         turnoJugador = false;
     }
 
     const curarse = ()=> {
         jugadorHP += 15;
-        suceso.innerText = `El jugador se curo`;
+        mensajes(`El jugador se curo`);
         turnoJugador = false;
     }
 
