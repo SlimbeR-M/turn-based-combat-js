@@ -82,8 +82,11 @@ let modulo = (()=>{
     }
 
     const renderizar = ()=> {
-        VidaJugador.innerText = `${jugadorHP}`;
-        vidaComputadora.innerText = `${computadoraHP}`;
+        VidaJugador.innerText = `${jugadorHP}%`;
+        vidaComputadora.innerText = `${computadoraHP}%`;
+
+        VidaJugador.style.width = `${jugadorHP}%`;
+        vidaComputadora.style.width = `${computadoraHP}%`;
     }
 
     const turnoEnemigo = ()=> {
