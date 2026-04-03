@@ -9,17 +9,18 @@ let modulo = (()=>{
 
     let jugadorHP = 100;
     let computadoraHP = 100;
-    let turnoJugador = true;
     let defendiendo = false;
+    let juegoTerminado = false;
     btnReiniciar.style.display = "none";
 
     const Reiniciar = ()=> {
         jugadorHP = 100;
         computadoraHP = 100;
-        turnoJugador = true;
         defendiendo = false;
         btnReiniciar.style.display = "none";
         suceso.innerHTML = "";
+        juegoTerminado = false;
+        desbloquearBotones();
         renderizar();
     }
 
@@ -33,7 +34,6 @@ let modulo = (()=>{
         let dañoJugador = Math.floor(Math.random() * (20 - 5 + 1)) + 5;
         computadoraHP -= dañoJugador;
         mensajes(`El jugador realizo un ataque de ${dañoJugador}`);
-        turnoJugador = false;
     }
 
     const evaluarDaño = (daño)=> {
@@ -47,29 +47,24 @@ let modulo = (()=>{
 
 
     const atacarComputadora = ()=> {
-        if(turnoJugador === false){
-            let daño = Math.floor(Math.random() * (20 - 5 + 1)) +1;
-            evaluarDaño(daño);
-        }
+        let daño = Math.floor(Math.random() * (20 - 5 + 1)) + 5;
+        evaluarDaño(daño);
     }
 
     const atacarComputadoraMas = ()=> {
-        if(turnoJugador === false){
-            let daño = Math.floor(Math.random() * (40 - 20 + 1)) +1;
-            evaluarDaño(daño);
-        }
+        let daño = Math.floor(Math.random() * (40 - 20 + 1)) + 20;
+        evaluarDaño(daño);
+    
     }
 
     const defender = ()=> {
         defendiendo = true;
         mensajes(`El jugador esta defendiendo`);
-        turnoJugador = false;
     }
 
     const curarse = ()=> {
         jugadorHP += 15;
         mensajes(`El jugador se curo`);
-        turnoJugador = false;
     }
 
     const bloquearBotones = () => {
@@ -94,12 +89,12 @@ let modulo = (()=>{
     const ganador = ()=> {
         if(jugadorHP === 0) {
             alert("Perdiste");
-            bloquearBotones();
             btnReiniciar.style.display = "inline-block";
+            juegoTerminado = true;
         } else if(computadoraHP === 0) {
             alert("Ganaste")
-            bloquearBotones();
             btnReiniciar.style.display = "inline-block";
+            juegoTerminado = true;
         }
     }
 
@@ -124,16 +119,18 @@ let modulo = (()=>{
     }
 
     const turnoDeJugador = (accion)=>{
-        
+        bloquearBotones();
         accion();
         evaluar();
         renderizar();
-        setTimeout(()=>{
-            turnoEnemigo();
-            evaluar();
-            renderizar();
-            
-        },1000);
+        if(!juegoTerminado) {
+            setTimeout(()=>{
+                turnoEnemigo();
+                evaluar();
+                renderizar();
+                desbloquearBotones();
+            },1000);
+        }
     }
 
     btnAtacar.addEventListener("click", ()=> turnoDeJugador(atacar));
